@@ -13,4 +13,8 @@
     <string name="text_main1">Follow each part of the story and\nillustrate every highlighted word</string>
     <string name="text_main2">Let the app analyze your drawing results</string>
     <string name="text_btn_main">Let\'s Draw Stories</string>
+    <string name="story_title">Story Title</string>
+    <string name="difficulty_easy">Difficulty: Easy</string>
+    <string name="back">Back</string>
+    <string name="choose_the_story">Choose the Story</string>
 </resources>
