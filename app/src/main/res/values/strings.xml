@@ -17,4 +17,6 @@
     <string name="difficulty_easy">Difficulty: Easy</string>
     <string name="back">Back</string>
     <string name="choose_the_story">Choose the Story</string>
+    <string name="title">Lorem ipsum dolor sit amet\nconsectetur. Tincidunt\nauctor id non sit ut id\nStrawberry .....</string>
+    <string name="gotit">Got it!</string>
 </resources>
