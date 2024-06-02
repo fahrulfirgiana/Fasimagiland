@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.arvl.fasimagiland.canvas.UndoRedoListener
 import com.arvl.fasimagiland.databinding.ActivityCanvasBinding
 
-// CanvasActivity.kt
 class CanvasActivity : AppCompatActivity(), UndoRedoListener {
     private val binding: ActivityCanvasBinding by lazy {
         ActivityCanvasBinding.inflate(layoutInflater)
@@ -45,8 +44,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                     btnPencil.setImageResource(R.drawable.ic_selected_pencil)
 
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    btnRedo.setImageResource(R.drawable.ic_unselected_redo)
-                    btnUndo.setImageResource(R.drawable.ic_unselected_undo)
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
 
                     drawPencil.visibility = View.VISIBLE
@@ -62,11 +59,15 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                     btnEraser.setImageResource(R.drawable.ic_selected_eraser)
 
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
-                    btnRedo.setImageResource(R.drawable.ic_unselected_redo)
-                    btnUndo.setImageResource(R.drawable.ic_unselected_undo)
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
+                    colorPalate.visibility = View.INVISIBLE
+
+                    // Hapus perubahan ikon undo redo di sini
+                    // ...
                 } else {
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
+                    // Hapus perubahan ikon undo redo di sini
+                    // ...
                 }
             }
 
@@ -88,11 +89,13 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    btnRedo.setImageResource(R.drawable.ic_unselected_redo)
-                    btnUndo.setImageResource(R.drawable.ic_unselected_undo)
+                    // Hapus perubahan ikon undo redo di sini
+                    // ...
                 } else {
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
                     colorPalate.visibility = View.INVISIBLE
+                    // Hapus perubahan ikon undo redo di sini
+                    // ...
                 }
             }
 

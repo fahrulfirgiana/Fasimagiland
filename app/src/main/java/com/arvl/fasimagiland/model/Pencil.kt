@@ -1,4 +1,4 @@
-package com.arvl.fasimagiland.cons
+package com.arvl.fasimagiland.model
 import android.graphics.Path
 
 data class Pencil(
