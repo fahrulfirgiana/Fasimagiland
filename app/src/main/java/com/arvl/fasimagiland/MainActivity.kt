@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnGetStarted.setOnClickListener {
-            val intent = Intent(this, ListStoryActivity::class.java)
+            val intent = Intent(this, CanvasActivity::class.java)
             startActivity(intent)
         }
     }

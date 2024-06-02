@@ -7,8 +7,9 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.arvl.fasimagiland.cons.Pencil
+import com.arvl.fasimagiland.model.Pencil
 import com.arvl.fasimagiland.CanvasActivity.Companion.currentBrush
+import android.util.Log
 
 class DrawPencil @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -41,10 +42,9 @@ class DrawPencil @JvmOverloads constructor(
     }
 
     private fun touchStart(x: Float, y: Float) {
-        if (undoList.isNotEmpty()) {
-            redoList.clear()
-            undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
-        }
+        Log.d("DrawPencil", "touchStart: redoList size before clearing: ${redoList.size}")
+        redoList.clear()
+        Log.d("DrawPencil", "touchStart: redoList size after clearing: ${redoList.size}")
 
         val path = Path()
         val p = Pencil(currentBrush, path)
@@ -52,6 +52,8 @@ class DrawPencil @JvmOverloads constructor(
         path.moveTo(x, y)
         mX = x
         mY = y
+
+        undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
     private fun touchMove(x: Float, y: Float) {
@@ -62,12 +64,24 @@ class DrawPencil @JvmOverloads constructor(
             path?.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
             mX = x
             mY = y
+
+            Log.d("DrawPencil", "touchMove: redoList size before clearing: ${redoList.size}")
+            redoList.clear()
+            Log.d("DrawPencil", "touchMove: redoList size after clearing: ${redoList.size}")
+
+            undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
         }
     }
 
     private fun touchUp() {
         val path = dataPencil.last().path
         path?.lineTo(mX, mY)
+        undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
+
+        Log.d("DrawPencil", "touchUp: redoList size before clearing: ${redoList.size}")
+        redoList.clear()
+        Log.d("DrawPencil", "touchUp: redoList size after clearing: ${redoList.size}")
+
         undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
@@ -102,6 +116,11 @@ class DrawPencil @JvmOverloads constructor(
         if (dataPencil.isNotEmpty()) {
             val removedPencil = dataPencil.removeAt(dataPencil.size - 1)
             undoList.add(removedPencil)
+
+            Log.d("DrawPencil", "undo: redoList size before clearing: ${redoList.size}")
+            redoList.clear()
+            Log.d("DrawPencil", "undo: redoList size after clearing: ${redoList.size}")
+
             invalidate()
             undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
         }
@@ -125,4 +144,3 @@ class DrawPencil @JvmOverloads constructor(
     }
 
 }
-

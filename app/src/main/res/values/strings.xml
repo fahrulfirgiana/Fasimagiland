@@ -19,4 +19,10 @@
     <string name="choose_the_story">Choose the Story</string>
     <string name="title">Lorem ipsum dolor sit amet\nconsectetur. Tincidunt\nauctor id non sit ut id\nStrawberry .....</string>
     <string name="gotit">Got it!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="title_analyze_true">GREAT !</string>
+    <string name="text_analyze_true">Your drawing matches the story</string>
+    <string name="image_analyze">Image Analyze</string>
+    <string name="btn_analyze">Continue ></string>
+
 </resources>
