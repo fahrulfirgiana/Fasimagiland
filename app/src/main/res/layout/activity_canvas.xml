@@ -9,13 +9,55 @@
     tools:context=".CanvasActivity">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/bk_story"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="16dp">
+        android:layout_height="87dp"
+        android:background="@color/blue"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tv_choose_story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="90dp"
+            android:layout_marginTop="40dp"
+            android:layout_toEndOf="@+id/iv_back"
+            android:fontFamily="@font/patrickhand_regular"
+            android:text="@string/draw_the_highlight_word"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/story"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_card"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingVertical="7dp"
+        app:layout_constraintTop_toBottomOf="@id/bk_story"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="... auctor id non sit ut id Strawberry"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <com.arvl.fasimagiland.canvas.DrawPencil
@@ -152,25 +194,12 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/story"
-        android:layout_width="wrap_content"
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/background_card"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingVertical="7dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="... auctor id non sit ut id Strawberry"
-            android:textSize="14sp" />
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="16dp">
 
     </RelativeLayout>
 
