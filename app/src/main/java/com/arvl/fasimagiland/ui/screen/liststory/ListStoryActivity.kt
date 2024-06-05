@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arvl.fasimagiland.CanvasActivity
-import com.arvl.fasimagiland.Story
-import com.arvl.fasimagiland.StoryAdapter
+import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity
 import com.arvl.fasimagiland.databinding.ActivityListStoryBinding
 
 class ListStoryActivity : AppCompatActivity() {

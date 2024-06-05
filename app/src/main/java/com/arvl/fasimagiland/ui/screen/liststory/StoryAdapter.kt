@@ -1,4 +1,4 @@
-package com.arvl.fasimagiland
+package com.arvl.fasimagiland.ui.screen.liststory
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

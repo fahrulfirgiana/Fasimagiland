@@ -25,5 +25,6 @@
     <string name="image_analyze">Image Analyze</string>
     <string name="btn_analyze">Continue ></string>
     <string name="draw_the_highlight_word">Draw the highlight word</string>
+    <string name="btn_analyze_fragment"><![CDATA[Continue >]]></string>
 
 </resources>

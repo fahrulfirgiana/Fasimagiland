@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.arvl.fasimagiland.databinding.ActivityMainBinding
-import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity
+import com.arvl.fasimagiland.ui.screen.liststory.ListStoryActivity
 
 class MainActivity : AppCompatActivity() {
 
