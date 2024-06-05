@@ -2,16 +2,16 @@ package com.arvl.fasimagiland.canvas
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.arvl.fasimagiland.model.Pencil
-import com.arvl.fasimagiland.CanvasActivity.Companion.currentBrush
-import android.util.Log
+import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity.Companion.currentBrush
 
-class DrawPencil @JvmOverloads constructor(
+class DrawCanvas @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
@@ -22,7 +22,7 @@ class DrawPencil @JvmOverloads constructor(
 
     private val dataPencil = mutableListOf<Pencil>()
     private val undoList = mutableListOf<Pencil>()
-    private val redoList = mutableListOf<Pencil>()
+    private var isErasing = false
 
     private val paintBrush = Paint().apply {
         isAntiAlias = true
@@ -42,10 +42,7 @@ class DrawPencil @JvmOverloads constructor(
     }
 
     private fun touchStart(x: Float, y: Float) {
-        Log.d("DrawPencil", "touchStart: redoList size before clearing: ${redoList.size}")
-        redoList.clear()
-        Log.d("DrawPencil", "touchStart: redoList size after clearing: ${redoList.size}")
-
+        clearUndoListIfNeeded()
         val path = Path()
         val p = Pencil(currentBrush, path)
         dataPencil.add(p)
@@ -64,24 +61,13 @@ class DrawPencil @JvmOverloads constructor(
             path?.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2)
             mX = x
             mY = y
-
-            Log.d("DrawPencil", "touchMove: redoList size before clearing: ${redoList.size}")
-            redoList.clear()
-            Log.d("DrawPencil", "touchMove: redoList size after clearing: ${redoList.size}")
-
-            undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
+            invalidate()
         }
     }
 
     private fun touchUp() {
         val path = dataPencil.last().path
         path?.lineTo(mX, mY)
-        undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
-
-        Log.d("DrawPencil", "touchUp: redoList size before clearing: ${redoList.size}")
-        redoList.clear()
-        Log.d("DrawPencil", "touchUp: redoList size after clearing: ${redoList.size}")
-
         undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
@@ -94,11 +80,21 @@ class DrawPencil @JvmOverloads constructor(
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                touchMove(x, y)
+                if (isErasing) {
+                    // Ubah path yang sedang digambar menjadi path penghapus
+                    touchMove(x, y)
+                } else {
+                    touchMove(x, y)
+                }
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                touchUp()
+                if (isErasing) {
+                    // Ubah path yang sedang digambar menjadi path penghapus
+                    touchUp()
+                } else {
+                    touchUp()
+                }
                 invalidate()
             }
         }
@@ -112,15 +108,21 @@ class DrawPencil @JvmOverloads constructor(
         }
     }
 
+
+    fun startErasing() {
+        isErasing = true
+        paintBrush.color = Color.WHITE // Atur warna penghapus ke warna background
+    }
+
+    fun stopErasing() {
+        isErasing = false
+        paintBrush.color = currentBrush // Kembalikan warna brush ke warna sebelumnya
+    }
+
     fun undo() {
         if (dataPencil.isNotEmpty()) {
             val removedPencil = dataPencil.removeAt(dataPencil.size - 1)
             undoList.add(removedPencil)
-
-            Log.d("DrawPencil", "undo: redoList size before clearing: ${redoList.size}")
-            redoList.clear()
-            Log.d("DrawPencil", "undo: redoList size after clearing: ${redoList.size}")
-
             invalidate()
             undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
         }
@@ -135,12 +137,18 @@ class DrawPencil @JvmOverloads constructor(
         }
     }
 
-    fun canUndo(): Boolean {
+    private fun clearUndoListIfNeeded() {
+        if (undoList.isNotEmpty()) {
+            undoList.clear()
+            undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
+        }
+    }
+
+    private fun canUndo(): Boolean {
         return dataPencil.isNotEmpty()
     }
 
-    fun canRedo(): Boolean {
+    private fun canRedo(): Boolean {
         return undoList.isNotEmpty()
     }
-
 }
