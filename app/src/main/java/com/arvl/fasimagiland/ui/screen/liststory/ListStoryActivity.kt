@@ -1,4 +1,4 @@
-package com.arvl.fasimagiland.ui.liststory
+package com.arvl.fasimagiland.ui.screen.liststory
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge

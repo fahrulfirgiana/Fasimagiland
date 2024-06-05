@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="410dp"
-    android:layout_height="480dp"
-    tools:context=".ui.fragment.AnalyzeFragment">
+    android:layout_width="300dp"
+    android:layout_height="420dp"
+    android:layout_gravity="center"
+    tools:context=".ui.component.AnalyzeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@android:color/white">
 
         <ImageView
             android:id="@+id/iv_analyze"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_gravity="center"
             android:contentDescription="@string/image_analyze"
             android:src="@drawable/image_analyze" />
@@ -41,7 +43,7 @@
 
         <Button
             android:id="@+id/btn_get_started"
-            android:layout_width="364dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
@@ -51,7 +53,7 @@
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/outfit_bold"
             android:padding="6dp"
-            android:text="@string/btn_analyze"
+            android:text="@string/btn_analyze_fragment"
             android:textSize="18sp" />
 
     </LinearLayout>

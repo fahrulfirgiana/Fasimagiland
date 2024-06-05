@@ -1,4 +1,4 @@
-package com.arvl.fasimagiland
+package com.arvl.fasimagiland.ui.screen.gettingstarted
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.arvl.fasimagiland.MainActivity
 import com.arvl.fasimagiland.databinding.ActivityGettingStartedBinding
 
 class GettingStartedActivity : AppCompatActivity() {
