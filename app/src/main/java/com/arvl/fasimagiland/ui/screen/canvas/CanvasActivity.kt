@@ -34,6 +34,10 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
         supportActionBar?.hide()
 
+        binding.ivBack.setOnClickListener {
+            onBackPressed()
+        }
+
         binding.apply {
             drawPencil.undoRedoListener = this@CanvasActivity
 
