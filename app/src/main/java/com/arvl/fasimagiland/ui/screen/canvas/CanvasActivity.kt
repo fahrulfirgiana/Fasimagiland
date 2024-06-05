@@ -1,4 +1,4 @@
-package com.arvl.fasimagiland
+package com.arvl.fasimagiland.ui.screen.canvas
 
 import android.graphics.Color
 import android.graphics.Paint
@@ -6,8 +6,10 @@ import android.graphics.Path
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.canvas.UndoRedoListener
 import com.arvl.fasimagiland.databinding.ActivityCanvasBinding
+import com.arvl.fasimagiland.ui.component.AnalyzeFragment
 
 class CanvasActivity : AppCompatActivity(), UndoRedoListener {
     private val binding: ActivityCanvasBinding by lazy {
@@ -16,8 +18,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
     private var isPencilIconClicked = false
     private var isEraserIconClicked = false
-    private var isRedoIconClicked = false
-    private var isCircleIconClicked = false
     private var isPaletteIconClicked = false
 
     companion object {
@@ -25,6 +25,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
         var paintBrush = Paint()
         var colorList = ArrayList<Int>()
         var currentBrush = Color.BLACK
+        var isEraserActive = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +38,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             drawPencil.undoRedoListener = this@CanvasActivity
 
             btnPencil.setOnClickListener {
-                // Untuk mengganti dari false menjadi true
                 isPencilIconClicked = !isPencilIconClicked
 
                 if (isPencilIconClicked) {
@@ -46,7 +46,8 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
 
-                    drawPencil.visibility = View.VISIBLE
+                    drawPencil.stopErasing()
+                    isEraserActive = false
 
                 } else {
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
@@ -61,13 +62,12 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
                     colorPalate.visibility = View.INVISIBLE
-
-                    // Hapus perubahan ikon undo redo di sini
-                    // ...
+                    drawPencil.startErasing()
+                    isEraserActive = true
                 } else {
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    // Hapus perubahan ikon undo redo di sini
-                    // ...
+                    drawPencil.stopErasing()
+                    isEraserActive = false
                 }
             }
 
@@ -89,17 +89,15 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    // Hapus perubahan ikon undo redo di sini
-                    // ...
                 } else {
                     btnPallete.setImageResource(R.drawable.ic_unselected_palette)
                     colorPalate.visibility = View.INVISIBLE
-                    // Hapus perubahan ikon undo redo di sini
-                    // ...
                 }
             }
 
             btnBlue.setOnClickListener {
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
                 paintBrush.color = resources.getColor(R.color.palette_blue)
                 currentColor(paintBrush.color)
                 colorPalate.visibility = View.INVISIBLE
@@ -107,6 +105,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             }
 
             btnRed.setOnClickListener {
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
                 paintBrush.color = resources.getColor(R.color.palette_red)
                 currentColor(paintBrush.color)
                 colorPalate.visibility = View.INVISIBLE
@@ -114,6 +113,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             }
 
             btnYellow.setOnClickListener {
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
                 paintBrush.color = resources.getColor(R.color.palette_yellow)
                 currentColor(paintBrush.color)
                 colorPalate.visibility = View.INVISIBLE
@@ -121,6 +121,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             }
 
             btnGreen.setOnClickListener {
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
                 paintBrush.color = resources.getColor(R.color.palette_green)
                 currentColor(paintBrush.color)
                 colorPalate.visibility = View.INVISIBLE
@@ -128,10 +129,15 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             }
 
             btnBlack.setOnClickListener {
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
                 paintBrush.color = Color.BLACK
                 currentColor(paintBrush.color)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
+            }
+
+            btnAnalyze.setOnClickListener {
+                AnalyzeFragment().show(supportFragmentManager, "AnalyzeFragment")
             }
         }
     }
