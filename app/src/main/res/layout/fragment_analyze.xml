@@ -19,7 +19,7 @@
             android:layout_height="250dp"
             android:layout_gravity="center"
             android:contentDescription="@string/image_analyze"
-            android:src="@drawable/image_analyze" />
+            android:src="@drawable/blank_photo_analyze" />
 
         <TextView
             android:id="@+id/tv_title"
