@@ -77,87 +77,99 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
             btnRedo.setOnClickListener {
                 drawPencil.redo()
+                updateUndoRedoIcons()
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
+                btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
             }
 
             btnUndo.setOnClickListener {
                 drawPencil.undo()
+                updateUndoRedoIcons()
+                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
+                btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
             }
 
             btnPallete.setOnClickListener {
                 isPaletteIconClicked = !isPaletteIconClicked
-
                 if (isPaletteIconClicked) {
                     colorPalate.visibility = View.VISIBLE
-
                     btnPallete.setImageResource(R.drawable.ic_selected_palette)
-
-                    btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
+                    btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
                 } else {
-                    btnPallete.setImageResource(R.drawable.ic_unselected_palette)
                     colorPalate.visibility = View.INVISIBLE
+                    btnPallete.setImageResource(R.drawable.ic_unselected_palette)
                 }
             }
 
+            // Handle color selection
             btnBlue.setOnClickListener {
                 btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                paintBrush.color = resources.getColor(R.color.palette_blue)
-                currentColor(paintBrush.color)
+                val newColor = resources.getColor(R.color.palette_blue)
+                drawPencil.updateColor(newColor)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
             btnRed.setOnClickListener {
                 btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                paintBrush.color = resources.getColor(R.color.palette_red)
-                currentColor(paintBrush.color)
+                val newColor = resources.getColor(R.color.palette_red)
+                drawPencil.updateColor(newColor)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
             btnYellow.setOnClickListener {
                 btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                paintBrush.color = resources.getColor(R.color.palette_yellow)
-                currentColor(paintBrush.color)
+                val newColor = resources.getColor(R.color.palette_yellow)
+                drawPencil.updateColor(newColor)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
             btnGreen.setOnClickListener {
                 btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                paintBrush.color = resources.getColor(R.color.palette_green)
-                currentColor(paintBrush.color)
+                val newColor = resources.getColor(R.color.palette_green)
+                drawPencil.updateColor(newColor)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
             btnBlack.setOnClickListener {
                 btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                paintBrush.color = Color.BLACK
-                currentColor(paintBrush.color)
+                val newColor = resources.getColor(R.color.palette_black)
+                drawPencil.updateColor(newColor)
                 colorPalate.visibility = View.INVISIBLE
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
             btnAnalyze.setOnClickListener {
-                AnalyzeFragment().show(supportFragmentManager, "AnalyzeFragment")
+                AnalyzeFragment().apply {
+                    show(supportFragmentManager, AnalyzeFragment::class.java.simpleName)
+                }
+            }
+        }
+    }
+
+    private fun updateUndoRedoIcons() {
+        binding.apply {
+            if (drawPencil.canUndo()) {
+                btnUndo.setImageResource(R.drawable.ic_selected_undo)
+            } else {
+                btnUndo.setImageResource(R.drawable.ic_unselected_undo)
+            }
+
+            if (drawPencil.canRedo()) {
+                btnRedo.setImageResource(R.drawable.ic_selected_redo)
+            } else {
+                btnRedo.setImageResource(R.drawable.ic_unselected_redo)
             }
         }
     }
 
     override fun onUndoRedoStateChanged(canUndo: Boolean, canRedo: Boolean) {
-        binding.btnUndo.apply {
-            setImageResource(if (canUndo) R.drawable.ic_selected_undo else R.drawable.ic_unselected_undo)
-        }
-
-        binding.btnRedo.apply {
-            setImageResource(if (canRedo) R.drawable.ic_selected_redo else R.drawable.ic_unselected_redo)
-        }
-    }
-
-    private fun currentColor(color: Int) {
-        currentBrush = color
-        path = Path()
+        binding.btnUndo.isEnabled = canUndo
+        binding.btnRedo.isEnabled = canRedo
+        updateUndoRedoIcons()
     }
 }
