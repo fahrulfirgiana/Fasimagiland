@@ -22,8 +22,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
 
     companion object {
         var path = Path()
-        var paintBrush = Paint()
-        var colorList = ArrayList<Int>()
         var currentBrush = Color.BLACK
         var isEraserActive = false
     }
