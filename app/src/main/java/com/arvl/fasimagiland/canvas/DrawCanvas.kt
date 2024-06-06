@@ -39,12 +39,13 @@ class DrawCanvas @JvmOverloads constructor(
 
     fun updateColor(newColor: Int) {
         paintBrush.color = newColor
+        currentBrush = newColor
     }
 
     private fun touchStart(x: Float, y: Float) {
         clearUndoListIfNeeded()
         val path = Path()
-        val p = Pencil(currentBrush, path)
+        val p = Pencil(paintBrush.color, path)
         dataPencil.add(p)
         path.moveTo(x, y)
         mX = x
@@ -80,21 +81,11 @@ class DrawCanvas @JvmOverloads constructor(
                 invalidate()
             }
             MotionEvent.ACTION_MOVE -> {
-                if (isErasing) {
-                    // Ubah path yang sedang digambar menjadi path penghapus
-                    touchMove(x, y)
-                } else {
-                    touchMove(x, y)
-                }
+                touchMove(x, y)
                 invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                if (isErasing) {
-                    // Ubah path yang sedang digambar menjadi path penghapus
-                    touchUp()
-                } else {
-                    touchUp()
-                }
+                touchUp()
                 invalidate()
             }
         }
@@ -106,8 +97,8 @@ class DrawCanvas @JvmOverloads constructor(
             paintBrush.color = p.color
             p.path?.let { canvas.drawPath(it, paintBrush) }
         }
+        paintBrush.color = currentBrush
     }
-
 
     fun startErasing() {
         isErasing = true
@@ -144,11 +135,11 @@ class DrawCanvas @JvmOverloads constructor(
         }
     }
 
-    private fun canUndo(): Boolean {
+    fun canUndo(): Boolean {
         return dataPencil.isNotEmpty()
     }
 
-    private fun canRedo(): Boolean {
+    fun canRedo(): Boolean {
         return undoList.isNotEmpty()
     }
 }
