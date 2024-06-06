@@ -1,15 +1,22 @@
 package com.arvl.fasimagiland.ui.screen.canvas
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
+import android.graphics.Rect
+import android.graphics.RectF
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.canvas.UndoRedoListener
 import com.arvl.fasimagiland.databinding.ActivityCanvasBinding
+import com.arvl.fasimagiland.model.Pencil
 import com.arvl.fasimagiland.ui.component.AnalyzeFragment
+import java.io.File
+import java.io.FileOutputStream
 
 class CanvasActivity : AppCompatActivity(), UndoRedoListener {
     private val binding: ActivityCanvasBinding by lazy {
@@ -146,7 +153,43 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                     show(supportFragmentManager, AnalyzeFragment::class.java.simpleName)
                 }
             }
+
+            btnAnalyze.setOnClickListener {
+                val bitmap = Bitmap.createBitmap(drawPencil.width, drawPencil.height, Bitmap.Config.ARGB_8888)
+                val canvas = Canvas(bitmap)
+                drawPencil.draw(canvas)
+                val imagePath = saveBitmap(bitmap)
+                val analyzeFragment = AnalyzeFragment.newInstance(imagePath)
+                analyzeFragment.show(supportFragmentManager, AnalyzeFragment::class.java.simpleName)
+            }
         }
+    }
+
+    fun calculateBounds(dataPencil: List<Pencil>): RectF {
+        var left = Float.MAX_VALUE
+        var top = Float.MAX_VALUE
+        var right = Float.MIN_VALUE
+        var bottom = Float.MIN_VALUE
+
+        for (pencil in dataPencil) {
+            val pathBounds = RectF()
+            pencil.path?.computeBounds(pathBounds, true)
+
+            if (pathBounds.left < left) {
+                left = pathBounds.left
+            }
+            if (pathBounds.top < top) {
+                top = pathBounds.top
+            }
+            if (pathBounds.right > right) {
+                right = pathBounds.right
+            }
+            if (pathBounds.bottom > bottom) {
+                bottom = pathBounds.bottom
+            }
+        }
+
+        return RectF(left, top, right, bottom)
     }
 
     private fun updateUndoRedoIcons() {
@@ -170,4 +213,15 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
         binding.btnRedo.isEnabled = canRedo
         updateUndoRedoIcons()
     }
+
+    private fun saveBitmap(bitmap: Bitmap): String {
+        val file = File(externalCacheDir, "sketch.png")
+        file.createNewFile()
+        val outputStream = FileOutputStream(file)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return file.absolutePath
+    }
+
 }

@@ -20,7 +20,7 @@ class DrawCanvas @JvmOverloads constructor(
     private var mX = 0f
     private var mY = 0f
 
-    private val dataPencil = mutableListOf<Pencil>()
+    val dataPencil = mutableListOf<Pencil>()
     private val undoList = mutableListOf<Pencil>()
     private var isErasing = false
 
