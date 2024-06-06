@@ -29,7 +29,7 @@ class ListStoryActivity : AppCompatActivity() {
         binding.recyclerView.adapter = storyAdapter
 
         binding.btnListstory.setOnClickListener {
-            val intent = Intent(this, CanvasActivity::class.java)
+            val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
         }
 
