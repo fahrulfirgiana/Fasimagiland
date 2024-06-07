@@ -27,4 +27,7 @@
     <string name="draw_the_highlight_word">Draw the highlight word</string>
     <string name="btn_analyze_fragment"><![CDATA[Continue >]]></string>
 
+    <string name="message_false">OOPS!</string>
+    <string name="message_false2">Your drawing doesn\'t match the story,\nPlease try again</string>
+
 </resources>

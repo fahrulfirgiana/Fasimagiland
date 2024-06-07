@@ -1,6 +1,7 @@
 package com.arvl.fasimagiland.canvas
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -8,6 +9,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.arvl.fasimagiland.model.Pencil
 import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity.Companion.currentBrush
 
@@ -20,7 +22,7 @@ class DrawCanvas @JvmOverloads constructor(
     private var mX = 0f
     private var mY = 0f
 
-    val dataPencil = mutableListOf<Pencil>()
+    private val dataPencil = mutableListOf<Pencil>()
     private val undoList = mutableListOf<Pencil>()
     private var isErasing = false
 
@@ -142,4 +144,25 @@ class DrawCanvas @JvmOverloads constructor(
     fun canRedo(): Boolean {
         return undoList.isNotEmpty()
     }
+
+    fun getBitmapFromCanvas(): Bitmap? {
+        // Buat objek Bitmap baru dengan ukuran yang sama dengan kanvas
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        // Buat canvas baru dengan menggunakan objek bitmap yang telah dibuat
+        val canvas = Canvas(bitmap)
+        // Gambar ulang kanvas dengan menggunakan metode onDraw()
+        draw(canvas)
+
+        // Periksa apakah gambar berhasil dikonversi ke Bitmap
+        return if (bitmap != null) {
+            // Tampilkan pesan Toast sukses
+            Toast.makeText(context, "Gambar berhasil dikonversi ke Bitmap", Toast.LENGTH_SHORT).show()
+            bitmap
+        } else {
+            // Tampilkan pesan Toast gagal
+            Toast.makeText(context, "Gagal mengonversi gambar ke Bitmap", Toast.LENGTH_SHORT).show()
+            null
+        }
+    }
+
 }

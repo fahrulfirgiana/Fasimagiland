@@ -1,22 +1,18 @@
 package com.arvl.fasimagiland.ui.screen.canvas
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.graphics.Rect
-import android.graphics.RectF
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.canvas.UndoRedoListener
 import com.arvl.fasimagiland.databinding.ActivityCanvasBinding
-import com.arvl.fasimagiland.model.Pencil
+import com.arvl.fasimagiland.ui.component.AnalyzeFalseFragment
 import com.arvl.fasimagiland.ui.component.AnalyzeFragment
-import java.io.File
-import java.io.FileOutputStream
 
 class CanvasActivity : AppCompatActivity(), UndoRedoListener {
     private val binding: ActivityCanvasBinding by lazy {
@@ -148,48 +144,38 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
                 btnPallete.setImageResource(R.drawable.ic_unselected_palette)
             }
 
-            btnAnalyze.setOnClickListener {
-                AnalyzeFragment().apply {
-                    show(supportFragmentManager, AnalyzeFragment::class.java.simpleName)
+            binding.btnAnalyze.setOnClickListener {
+                // Dapatkan objek Bitmap dari kanvas
+                val bitmap = drawPencil.getBitmapFromCanvas()
+
+                // Selanjutnya, Anda dapat memeriksa nilai bitmap untuk menentukan apakah konversi berhasil atau gagal
+                if (bitmap != null) {
+                    // Tampilkan fragment analisis dengan menggunakan gambar yang telah dikonversi
+                    val fragment = AnalyzeFragment.newInstance(bitmap)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_analyze, fragment)
+                        .commit()
+
+                    // Setelah menambahkan fragment, dapatkan root view dari fragment
+                    val fragmentRootView = fragment.view
+
+                    // Terapkan properti layout_gravity pada root view fragment
+                    val layoutParams = FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT
+                    )
+                    layoutParams.gravity = Gravity.CENTER
+                    fragmentRootView?.layoutParams = layoutParams
+                } else {
+                    // Jika bitmap null, tampilkan fragment dengan hasil yang salah
+                    val fragment = AnalyzeFalseFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_analyze, fragment)
+                        .commit()
                 }
             }
-
-            btnAnalyze.setOnClickListener {
-                val bitmap = Bitmap.createBitmap(drawPencil.width, drawPencil.height, Bitmap.Config.ARGB_8888)
-                val canvas = Canvas(bitmap)
-                drawPencil.draw(canvas)
-                val imagePath = saveBitmap(bitmap)
-                val analyzeFragment = AnalyzeFragment.newInstance(imagePath)
-                analyzeFragment.show(supportFragmentManager, AnalyzeFragment::class.java.simpleName)
-            }
-        }
-    }
-
-    fun calculateBounds(dataPencil: List<Pencil>): RectF {
-        var left = Float.MAX_VALUE
-        var top = Float.MAX_VALUE
-        var right = Float.MIN_VALUE
-        var bottom = Float.MIN_VALUE
-
-        for (pencil in dataPencil) {
-            val pathBounds = RectF()
-            pencil.path?.computeBounds(pathBounds, true)
-
-            if (pathBounds.left < left) {
-                left = pathBounds.left
-            }
-            if (pathBounds.top < top) {
-                top = pathBounds.top
-            }
-            if (pathBounds.right > right) {
-                right = pathBounds.right
-            }
-            if (pathBounds.bottom > bottom) {
-                bottom = pathBounds.bottom
-            }
         }
 
-        return RectF(left, top, right, bottom)
     }
 
     private fun updateUndoRedoIcons() {
@@ -213,15 +199,4 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
         binding.btnRedo.isEnabled = canRedo
         updateUndoRedoIcons()
     }
-
-    private fun saveBitmap(bitmap: Bitmap): String {
-        val file = File(externalCacheDir, "sketch.png")
-        file.createNewFile()
-        val outputStream = FileOutputStream(file)
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-        outputStream.flush()
-        outputStream.close()
-        return file.absolutePath
-    }
-
 }

@@ -3,24 +3,23 @@ package com.arvl.fasimagiland.ui.component
 import android.app.Dialog
 import android.graphics.Bitmap
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import androidx.fragment.app.DialogFragment
 import com.arvl.fasimagiland.R
 
-class AnalyzeFragment : DialogFragment() {
+class AnalyzeFalseFragment : DialogFragment() {
 
     companion object {
         private const val ARG_IMAGE_BITMAP = "argImageBitmap"
 
-        fun newInstance(imageBitmap: Bitmap): AnalyzeFragment {
+        fun newInstance(imageBitmap: Bitmap): AnalyzeFalseFragment {
             val args = Bundle().apply {
                 putParcelable(ARG_IMAGE_BITMAP, imageBitmap)
             }
-            val fragment = AnalyzeFragment()
+            val fragment = AnalyzeFalseFragment()
             fragment.arguments = args
             return fragment
         }
@@ -30,7 +29,7 @@ class AnalyzeFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_analyze, container, false)
+        return inflater.inflate(R.layout.fragment_analyze_false, container, false)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -49,8 +48,7 @@ class AnalyzeFragment : DialogFragment() {
             imageView.setImageBitmap(it)
         }
 
-        val btnGetStarted = view.findViewById<Button>(R.id.btn_get_started)
-        btnGetStarted.setOnClickListener {
+        view.findViewById<View>(R.id.btn_get_started).setOnClickListener {
             // Tambahkan logika untuk menangani klik tombol jika diperlukan
         }
     }
