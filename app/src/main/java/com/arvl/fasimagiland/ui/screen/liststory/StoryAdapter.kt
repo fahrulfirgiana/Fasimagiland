@@ -4,8 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arvl.fasimagiland.databinding.ItemStoryBinding
-
-data class Story(val title: String, val difficulty: String)
+import com.arvl.fasimagiland.model.Story
 
 class StoryAdapter(private val stories: List<Story>) : RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
