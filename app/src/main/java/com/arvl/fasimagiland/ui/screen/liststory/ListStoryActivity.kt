@@ -2,10 +2,14 @@ package com.arvl.fasimagiland.ui.screen.liststory
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity
+import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.databinding.ActivityListStoryBinding
+import com.arvl.fasimagiland.model.Story
+import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity
+import com.arvl.fasimagiland.ui.screen.liststory.adapter.StoryAdapter
 
 class ListStoryActivity : AppCompatActivity() {
 
@@ -24,14 +28,14 @@ class ListStoryActivity : AppCompatActivity() {
             Story("The Turtle and the Rabbit", "Normal")
         )
 
-        storyAdapter = StoryAdapter(stories)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = storyAdapter
-
-        binding.btnListstory.setOnClickListener {
+        storyAdapter = StoryAdapter(stories) { story ->
             val intent = Intent(this, StoryActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.slide_up, R.anim.no_animation)
         }
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.adapter = storyAdapter
 
         binding.ivBack.setOnClickListener {
             onBackPressed()
