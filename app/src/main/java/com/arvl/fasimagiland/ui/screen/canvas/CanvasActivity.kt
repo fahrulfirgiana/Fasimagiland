@@ -1,20 +1,18 @@
 package com.arvl.fasimagiland.ui.screen.canvas
 
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Path
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.canvas.UndoRedoListener
 import com.arvl.fasimagiland.databinding.ActivityCanvasBinding
-import com.arvl.fasimagiland.ui.component.AnalyzeFalseFragment
-import com.arvl.fasimagiland.ui.component.AnalyzeFragment
+import com.arvl.fasimagiland.helper.ImageClassifierHelper
+import org.tensorflow.lite.task.vision.classifier.Classifications
 
-class CanvasActivity : AppCompatActivity(), UndoRedoListener {
+class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHelper.ClassifierListener {
     private val binding: ActivityCanvasBinding by lazy {
         ActivityCanvasBinding.inflate(layoutInflater)
     }
@@ -29,11 +27,19 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
         var isEraserActive = false
     }
 
+    private lateinit var imageClassifierHelper: ImageClassifierHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        // Inisialisasi ImageClassifierHelper
+        imageClassifierHelper = ImageClassifierHelper(
+            context = this,
+            classifierListener = this
+        )
 
         binding.ivBack.setOnClickListener {
             onBackPressed()
@@ -145,37 +151,26 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener {
             }
 
             binding.btnAnalyze.setOnClickListener {
-                // Dapatkan objek Bitmap dari kanvas
                 val bitmap = drawPencil.getBitmapFromCanvas()
-
-                // Selanjutnya, Anda dapat memeriksa nilai bitmap untuk menentukan apakah konversi berhasil atau gagal
-                if (bitmap != null) {
-                    // Tampilkan fragment analisis dengan menggunakan gambar yang telah dikonversi
-                    val fragment = AnalyzeFragment.newInstance(bitmap)
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_analyze, fragment)
-                        .commit()
-
-                    // Setelah menambahkan fragment, dapatkan root view dari fragment
-                    val fragmentRootView = fragment.view
-
-                    // Terapkan properti layout_gravity pada root view fragment
-                    val layoutParams = FrameLayout.LayoutParams(
-                        FrameLayout.LayoutParams.MATCH_PARENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT
-                    )
-                    layoutParams.gravity = Gravity.CENTER
-                    fragmentRootView?.layoutParams = layoutParams
-                } else {
-                    // Jika bitmap null, tampilkan fragment dengan hasil yang salah
-                    val fragment = AnalyzeFalseFragment()
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_analyze, fragment)
-                        .commit()
+                bitmap.let {
+                    imageClassifierHelper.classifyCanvas(it)
                 }
             }
         }
+    }
 
+    override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
+        val resultText = results?.joinToString { classification ->
+            classification.categories.joinToString { category ->
+                "${category.label}: ${category.score}"
+            }
+        } ?: "Klasifikasi gagal"
+
+        Toast.makeText(this, resultText, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onError(error: String) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
     }
 
     private fun updateUndoRedoIcons() {

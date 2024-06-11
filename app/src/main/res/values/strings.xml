@@ -29,5 +29,6 @@
 
     <string name="message_false">OOPS!</string>
     <string name="message_false2">Your drawing doesn\'t match the story,\nPlease try again</string>
+    <string name="image_classifier_failed">gagal</string>
 
 </resources>

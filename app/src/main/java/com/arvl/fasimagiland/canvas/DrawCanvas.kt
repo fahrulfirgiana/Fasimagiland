@@ -1,5 +1,6 @@
 package com.arvl.fasimagiland.canvas
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -9,7 +10,6 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.Toast
 import com.arvl.fasimagiland.model.Pencil
 import com.arvl.fasimagiland.ui.screen.canvas.CanvasActivity.Companion.currentBrush
 
@@ -74,6 +74,7 @@ class DrawCanvas @JvmOverloads constructor(
         undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
@@ -82,10 +83,12 @@ class DrawCanvas @JvmOverloads constructor(
                 touchStart(x, y)
                 invalidate()
             }
+
             MotionEvent.ACTION_MOVE -> {
                 touchMove(x, y)
                 invalidate()
             }
+
             MotionEvent.ACTION_UP -> {
                 touchUp()
                 invalidate()
@@ -145,24 +148,10 @@ class DrawCanvas @JvmOverloads constructor(
         return undoList.isNotEmpty()
     }
 
-    fun getBitmapFromCanvas(): Bitmap? {
-        // Buat objek Bitmap baru dengan ukuran yang sama dengan kanvas
+    fun getBitmapFromCanvas(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        // Buat canvas baru dengan menggunakan objek bitmap yang telah dibuat
         val canvas = Canvas(bitmap)
-        // Gambar ulang kanvas dengan menggunakan metode onDraw()
         draw(canvas)
-
-        // Periksa apakah gambar berhasil dikonversi ke Bitmap
-        return if (bitmap != null) {
-            // Tampilkan pesan Toast sukses
-            Toast.makeText(context, "Gambar berhasil dikonversi ke Bitmap", Toast.LENGTH_SHORT).show()
-            bitmap
-        } else {
-            // Tampilkan pesan Toast gagal
-            Toast.makeText(context, "Gagal mengonversi gambar ke Bitmap", Toast.LENGTH_SHORT).show()
-            null
-        }
+        return bitmap
     }
-
 }

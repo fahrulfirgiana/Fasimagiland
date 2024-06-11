@@ -52,21 +52,4 @@
         app:layout_constraintTop_toBottomOf="@id/bk_story"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
-        android:id="@+id/btn_liststory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recycler_view"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/button_background"
-        android:backgroundTint="@color/blue"
-        android:fontFamily="@font/poppins_semibold"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:text="@string/text_btn_main"
-        android:textColor="@android:color/white"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="538dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

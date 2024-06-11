@@ -55,6 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/tundra"
             android:fontFamily="@font/poppins_semibold"
             android:text="... auctor id non sit ut id Strawberry"
             android:textSize="14sp" />
@@ -88,6 +89,7 @@
         android:background="@drawable/button_background"
         android:backgroundTint="@color/blue"
         android:fontFamily="@font/outfit_bold"
+        android:textColor="@color/white"
         android:padding="6dp"
         android:text="@string/btn_analyze"
         android:textSize="18sp"

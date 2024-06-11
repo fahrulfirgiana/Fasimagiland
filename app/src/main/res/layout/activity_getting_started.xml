@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundd"
     tools:context=".ui.screen.gettingstarted.GettingStartedActivity">
 
     <ImageView
@@ -67,6 +68,7 @@
         android:padding="15dp"
         android:fontFamily="@font/poppins_bold"
         android:textSize="18sp"
+        android:textColor="@color/white"
         android:text="@string/btn_getting_started"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
