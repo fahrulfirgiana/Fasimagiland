@@ -3,7 +3,6 @@
     <style name="Base.Theme.FasimagiLand" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">@color/blue</item>
-         <item name="backgroundd">@color/white</item>
     </style>
 
     <style name="AnalyzeDialog" parent="Theme.AppCompat.Dialog">
