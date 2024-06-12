@@ -43,6 +43,12 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
         binding.ivBack.setOnClickListener {
             onBackPressed()
+            overridePendingTransition(R.anim.no_animation, R.anim.slide_down)
+        }
+
+        binding.story.setOnClickListener {
+            onBackPressed()
+            overridePendingTransition(R.anim.no_animation, R.anim.slide_down)
         }
 
         binding.apply {

@@ -39,6 +39,7 @@ android {
     }
     buildFeatures {
         mlModelBinding = true
+        viewBinding = true
     }
 }
 
@@ -57,4 +58,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.tensorflow.lite.task.vision)
+
+
+    // Retrofit
+    implementation(libs.glide)
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 }

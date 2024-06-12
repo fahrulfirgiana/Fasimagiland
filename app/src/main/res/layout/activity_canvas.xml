@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/tundra"
             android:fontFamily="@font/poppins_semibold"
-            android:text="... auctor id non sit ut id Strawberry"
+            android:text="@string/story_on_canvas"
             android:textSize="14sp" />
     </RelativeLayout>
 
