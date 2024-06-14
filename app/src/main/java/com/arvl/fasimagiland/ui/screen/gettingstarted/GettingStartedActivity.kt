@@ -21,7 +21,7 @@ class GettingStartedActivity : AppCompatActivity() {
         binding = ActivityGettingStartedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.mainGs) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -29,7 +29,7 @@ class GettingStartedActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
 
-        binding.btnGetStarted.setOnClickListener {
+        binding.button.setOnClickListener {
             val editor = sharedPreferences.edit()
             editor.putBoolean("isFirstRun", false)
             editor.apply()
