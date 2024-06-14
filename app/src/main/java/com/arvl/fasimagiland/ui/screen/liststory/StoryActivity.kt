@@ -27,7 +27,6 @@ class StoryActivity : AppCompatActivity() {
         binding.btnGotIt.setOnClickListener {
             val intent = Intent(this, CanvasActivity::class.java)
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_up, R.anim.no_animation)
         }
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {

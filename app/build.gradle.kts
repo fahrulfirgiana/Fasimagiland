@@ -40,6 +40,7 @@ android {
     buildFeatures {
         mlModelBinding = true
         viewBinding = true
+        buildConfig = true
     }
 }
 

@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:layout_margin="8dp"
     android:elevation="4dp"
-    android:gravity="center_horizontal">
+    android:gravity="center">
 
     <TextView
         android:id="@+id/tv_story_title"
@@ -16,7 +16,8 @@
         android:text="@string/story_title"
         android:fontFamily="@font/patrickhand_regular"
         android:textSize="24sp"
-        android:textColor="@color/dark_blue2"/>
+        android:textColor="@color/dark_blue2"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/tv_story_difficulty"

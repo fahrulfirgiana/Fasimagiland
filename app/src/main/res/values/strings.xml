@@ -30,7 +30,6 @@
     <string name="text_analyze_true">Gambar Anda sesuai dengan cerita</string>
     <string name="image_analyze">Gambar Analisis</string>
     <string name="btn_analyze">Periksa</string>
-    <string name="text_story">Lorem ipsum dolor sit amet\nconsectetur. Tincidunt\nauctor id non sit ut id\nStrawberry .....</string>
     <string name="draw_the_highlight_word">Gambar kata yang disorot</string>
     <string name="btn_analyze_fragment"><![CDATA[Lanjutkan >]]></string>
 
@@ -39,6 +38,4 @@
     <string name="image_classifier_failed">gagal</string>
     <string name="instruction">Ikuti setiap bagian dari cerita ini dan gambarlah kata yang disorot pada kanvas yang tersedia. Ayo mulai!</string>
     <string name="message">gagal memuat...</string>
-    <string name="story_on_canvas">Strawberry</string>
-
 </resources>

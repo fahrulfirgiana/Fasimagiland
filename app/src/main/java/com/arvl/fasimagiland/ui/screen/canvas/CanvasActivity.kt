@@ -1,10 +1,15 @@
 package com.arvl.fasimagiland.ui.screen.canvas
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.graphics.Path
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.arvl.fasimagiland.R
 import com.arvl.fasimagiland.canvas.UndoRedoListener
@@ -29,6 +34,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
     private lateinit var imageClassifierHelper: ImageClassifierHelper
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -41,14 +47,13 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
             classifierListener = this
         )
 
-        binding.ivBack.setOnClickListener {
-            onBackPressed()
-            overridePendingTransition(R.anim.no_animation, R.anim.slide_down)
+        val firstSentence = intent.getStringExtra("FIRST_SENTENCE")
+        firstSentence?.let {
+            binding.lstory.text = Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT)
         }
 
-        binding.story.setOnClickListener {
+        binding.ivBack.setOnClickListener {
             onBackPressed()
-            overridePendingTransition(R.anim.no_animation, R.anim.slide_down)
         }
 
         binding.apply {
@@ -174,6 +179,8 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
         Toast.makeText(this, resultText, Toast.LENGTH_LONG).show()
     }
+
+
 
     override fun onError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show()
