@@ -6,19 +6,20 @@ import android.os.SystemClock
 import android.util.Log
 import com.arvl.fasimagiland.R
 import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.common.TensorOperator
 import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.core.vision.ImageProcessingOptions
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 class ImageClassifierHelper(
-    private var threshold: Float = 0.1f,
-    private var maxResults: Int = 3,
-    private val modelName: String = "model_resnet_with_metadata.tflite",
+    private var maxResults: Int = 5,
+    private val modelName: String = "model_baru.tflite",
     val context: Context,
     val classifierListener: ClassifierListener?
 ) {
@@ -38,7 +39,6 @@ class ImageClassifierHelper(
 
     private fun setupImageClassifier() {
         val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
-            .setScoreThreshold(threshold)
             .setMaxResults(maxResults)
         val baseOptionsBuilder = BaseOptions.builder()
             .setNumThreads(4)
@@ -62,9 +62,11 @@ class ImageClassifierHelper(
             setupImageClassifier()
         }
 
+        // Update the image processor for grayscale images
         val imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(28, 28, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(CastOp(DataType.UINT8))
+            .add(CastOp(DataType.FLOAT32))
+            .add(GrayscaleOp())
             .build()
 
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
@@ -80,7 +82,24 @@ class ImageClassifierHelper(
         )
     }
 
+
+    class GrayscaleOp : TensorOperator {
+        override fun apply(input: TensorBuffer): TensorBuffer {
+            val flatArray = input.floatArray
+            for (i in flatArray.indices step 3) {
+                val gray =
+                    0.2989f * flatArray[i] + 0.5870f * flatArray[i + 1] + 0.1140f * flatArray[i + 2]
+                flatArray[i] = gray
+                flatArray[i + 1] = gray
+                flatArray[i + 2] = gray
+            }
+            return input
+        }
+    }
+
+
     companion object {
         private const val TAG = "ImageClassifierHelper"
     }
 }
+
