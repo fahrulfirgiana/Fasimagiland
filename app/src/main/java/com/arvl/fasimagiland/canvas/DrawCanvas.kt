@@ -110,7 +110,7 @@ class DrawCanvas @JvmOverloads constructor(
 
     fun startErasing() {
         isErasing = true
-        paintBrush.color = Color.WHITE // Atur warna penghapus ke warna background
+        paintBrush.color = Color.BLACK // Atur warna penghapus ke warna background
     }
 
     fun stopErasing() {

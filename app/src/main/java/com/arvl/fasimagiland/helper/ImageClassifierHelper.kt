@@ -18,7 +18,7 @@ import org.tensorflow.lite.task.vision.classifier.Classifications
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 class ImageClassifierHelper(
-    private var maxResults: Int = 5,
+    private var maxResults: Int = 10,
     private val modelName: String = "model_baru.tflite",
     val context: Context,
     val classifierListener: ClassifierListener?

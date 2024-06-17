@@ -24,11 +24,10 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
     private var isPencilIconClicked = false
     private var isEraserIconClicked = false
-    private var isPaletteIconClicked = false
 
     companion object {
         var path = Path()
-        var currentBrush = Color.BLACK
+        var currentBrush = Color.WHITE
         var isEraserActive = false
     }
 
@@ -64,10 +63,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
                 if (isPencilIconClicked) {
                     btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-
                     btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-
                     drawPencil.stopErasing()
                     isEraserActive = false
 
@@ -80,10 +76,7 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
                 isEraserIconClicked = !isEraserIconClicked
                 if (isEraserIconClicked) {
                     btnEraser.setImageResource(R.drawable.ic_selected_eraser)
-
                     btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
-                    btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-                    colorPalate.visibility = View.INVISIBLE
                     drawPencil.startErasing()
                     isEraserActive = true
                 } else {
@@ -107,60 +100,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
                 btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
             }
 
-            btnPallete.setOnClickListener {
-                isPaletteIconClicked = !isPaletteIconClicked
-                if (isPaletteIconClicked) {
-                    colorPalate.visibility = View.VISIBLE
-                    btnPallete.setImageResource(R.drawable.ic_selected_palette)
-                    btnEraser.setImageResource(R.drawable.ic_unselected_eraser)
-                    btnPencil.setImageResource(R.drawable.ic_unselected_pencil)
-                } else {
-                    colorPalate.visibility = View.INVISIBLE
-                    btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-                }
-            }
-
-            // Handle color selection
-            btnBlue.setOnClickListener {
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                val newColor = resources.getColor(R.color.palette_blue)
-                drawPencil.updateColor(newColor)
-                colorPalate.visibility = View.INVISIBLE
-                btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-            }
-
-            btnRed.setOnClickListener {
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                val newColor = resources.getColor(R.color.palette_red)
-                drawPencil.updateColor(newColor)
-                colorPalate.visibility = View.INVISIBLE
-                btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-            }
-
-            btnYellow.setOnClickListener {
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                val newColor = resources.getColor(R.color.palette_yellow)
-                drawPencil.updateColor(newColor)
-                colorPalate.visibility = View.INVISIBLE
-                btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-            }
-
-            btnGreen.setOnClickListener {
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                val newColor = resources.getColor(R.color.palette_green)
-                drawPencil.updateColor(newColor)
-                colorPalate.visibility = View.INVISIBLE
-                btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-            }
-
-            btnBlack.setOnClickListener {
-                btnPencil.setImageResource(R.drawable.ic_selected_pencil)
-                val newColor = resources.getColor(R.color.palette_black)
-                drawPencil.updateColor(newColor)
-                colorPalate.visibility = View.INVISIBLE
-                btnPallete.setImageResource(R.drawable.ic_unselected_palette)
-            }
-
             binding.btnAnalyze.setOnClickListener {
                 val bitmap = drawPencil.getBitmapFromCanvas()
                 bitmap.let {
@@ -179,8 +118,6 @@ class CanvasActivity : AppCompatActivity(), UndoRedoListener, ImageClassifierHel
 
         Toast.makeText(this, resultText, Toast.LENGTH_LONG).show()
     }
-
-
 
     override fun onError(error: String) {
         Toast.makeText(this, error, Toast.LENGTH_LONG).show()
