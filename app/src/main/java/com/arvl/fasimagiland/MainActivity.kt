@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.arvl.fasimagiland.databinding.ActivityMainBinding
+import com.arvl.fasimagiland.ui.screen.gettingstarted.GettingStartedActivity
 import com.arvl.fasimagiland.ui.screen.liststory.ListStoryActivity
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGetStarted.setOnClickListener {
             val intent = Intent(this, ListStoryActivity::class.java)
+            startActivity(intent)
+        }
+        binding.iconInfo.setOnClickListener {
+            val intent = Intent(this, GettingStartedActivity::class.java)
+            startActivity(intent)
+        }
+        binding.iconMore.setOnClickListener {
+            val intent = Intent(this, AboutActivity::class.java)
             startActivity(intent)
         }
     }

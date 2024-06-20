@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_gs"
+    android:background="@color/white"
     app:layoutDescription="@xml/activity_getting_started_scene"
     tools:context=".ui.screen.gettingstarted.GettingStartedActivity">
 

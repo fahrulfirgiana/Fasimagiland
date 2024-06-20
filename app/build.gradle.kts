@@ -66,4 +66,7 @@ dependencies {
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0" )
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 }

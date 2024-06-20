@@ -1,12 +1,29 @@
 package com.arvl.fasimagiland.data.retrofit
 
-import com.arvl.fasimagiland.data.response.StoryResponse
+import com.arvl.fasimagiland.data.response.AnalysisResponse
+import com.arvl.fasimagiland.data.response.AnalyzeRequest
+import com.arvl.fasimagiland.data.response.DetailResponse
+import com.arvl.fasimagiland.data.response.StoryResponseItem
 import retrofit2.Call
+import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
-    @GET("1707c3c0-a4d4-4b5f-94ff-9284ef51ba62")
-    fun getStories(
-    ): Call<StoryResponse>;
+
+    @GET("stories")
+    fun getStories(): Call<List<StoryResponseItem>>
+
+    @GET("stories/{id}")
+    fun getDetailStory(
+        @Path("id") storyId: String
+    ): Call<DetailResponse>
+
+    @POST("stories/{id}")
+    fun analyzeText(
+        @Path("id") storyId: String,
+        @Body request: AnalyzeRequest
+    ): Call<AnalysisResponse>
 }

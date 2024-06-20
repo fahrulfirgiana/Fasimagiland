@@ -11,7 +11,13 @@ import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.arvl.fasimagiland.R
 
+interface AnalyzeFragmentListener {
+    fun onAnalyzeFragmentDismiss()
+}
+
 class AnalyzeFragment : DialogFragment() {
+
+    private var listener: AnalyzeFragmentListener? = null
 
     companion object {
         private const val ARG_IMAGE_BITMAP = "argImageBitmap"
@@ -20,18 +26,16 @@ class AnalyzeFragment : DialogFragment() {
             val args = Bundle().apply {
                 putParcelable(ARG_IMAGE_BITMAP, imageBitmap)
             }
-            val fragment = AnalyzeFragment()
-            fragment.arguments = args
-            return fragment
+            return AnalyzeFragment().apply {
+                arguments = args
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_analyze, container, false)
+    fun setListener(listener: AnalyzeFragmentListener) {
+        this.listener = listener
     }
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -39,19 +43,22 @@ class AnalyzeFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        val imageBitmap = arguments?.getParcelable<Bitmap>(ARG_IMAGE_BITMAP)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_analyze, container, false)
 
-        imageBitmap?.let {
-            val imageView = view.findViewById<ImageView>(R.id.iv_analyze)
-            imageView.setImageBitmap(it)
+        val imageView = view.findViewById<ImageView>(R.id.iv_analyze)
+        val bitmap = arguments?.getParcelable<Bitmap>(ARG_IMAGE_BITMAP)
+        imageView.setImageBitmap(bitmap)
+
+        view.findViewById<Button>(R.id.btn_get_started).setOnClickListener {
+            listener?.onAnalyzeFragmentDismiss()
+            dismiss()
         }
 
-        val btnGetStarted = view.findViewById<Button>(R.id.btn_get_started)
-        btnGetStarted.setOnClickListener {
-            // Tambahkan logika untuk menangani klik tombol jika diperlukan
-        }
+        return view
     }
 }

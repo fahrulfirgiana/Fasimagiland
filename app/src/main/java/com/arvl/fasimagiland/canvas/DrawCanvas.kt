@@ -1,16 +1,8 @@
 package com.arvl.fasimagiland.canvas
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.ColorMatrix
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.arvl.fasimagiland.model.Pencil
@@ -21,10 +13,8 @@ class DrawCanvas @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val TOUCH_TOLERANCE = 4f
-
     private var mX = 0f
     private var mY = 0f
-
     private val dataPencil = mutableListOf<Pencil>()
     private val undoList = mutableListOf<Pencil>()
     private var isErasing = false
@@ -55,7 +45,6 @@ class DrawCanvas @JvmOverloads constructor(
         path.moveTo(x, y)
         mX = x
         mY = y
-
         undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
@@ -77,7 +66,6 @@ class DrawCanvas @JvmOverloads constructor(
         undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val x = event.x
         val y = event.y
@@ -86,12 +74,10 @@ class DrawCanvas @JvmOverloads constructor(
                 touchStart(x, y)
                 invalidate()
             }
-
             MotionEvent.ACTION_MOVE -> {
                 touchMove(x, y)
                 invalidate()
             }
-
             MotionEvent.ACTION_UP -> {
                 touchUp()
                 invalidate()
@@ -172,4 +158,10 @@ class DrawCanvas @JvmOverloads constructor(
         return grayscaleBitmap
     }
 
+    fun clearCanvas() {
+        dataPencil.clear()
+        undoList.clear()
+        invalidate()
+        undoRedoListener?.onUndoRedoStateChanged(canUndo(), canRedo())
+    }
 }

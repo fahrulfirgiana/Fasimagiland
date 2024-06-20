@@ -6,11 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import com.arvl.fasimagiland.R
 
+interface AnalyzeFalseFragmentListener {
+    fun onAnalyzeFalseFragmentDismiss()
+}
 class AnalyzeFalseFragment : DialogFragment() {
+
+    private var listenerFalse: AnalyzeFalseFragmentListener? = null
 
     companion object {
         private const val ARG_IMAGE_BITMAP = "argImageBitmap"
@@ -25,11 +31,26 @@ class AnalyzeFalseFragment : DialogFragment() {
         }
     }
 
+    fun setFalseListener(listenerFalse: AnalyzeFalseFragmentListener) {
+        this.listenerFalse = listenerFalse
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_analyze_false, container, false)
+        val view = inflater.inflate(R.layout.fragment_analyze_false, container, false)
+
+        val imageView = view.findViewById<ImageView>(R.id.iv_analyze)
+        val bitmap = arguments?.getParcelable<Bitmap>(AnalyzeFalseFragment.ARG_IMAGE_BITMAP)
+        imageView.setImageBitmap(bitmap)
+
+        view.findViewById<Button>(R.id.btn_get_started).setOnClickListener {
+            listenerFalse?.onAnalyzeFalseFragmentDismiss()
+            dismiss()
+        }
+
+        return view
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -38,18 +59,4 @@ class AnalyzeFalseFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val imageBitmap = arguments?.getParcelable<Bitmap>(ARG_IMAGE_BITMAP)
-
-        imageBitmap?.let {
-            val imageView = view.findViewById<ImageView>(R.id.iv_analyze)
-            imageView.setImageBitmap(it)
-        }
-
-        view.findViewById<View>(R.id.btn_get_started).setOnClickListener {
-            // Tambahkan logika untuk menangani klik tombol jika diperlukan
-        }
-    }
 }
